@@ -1,11 +1,13 @@
 import os
 from dataclasses import dataclass
 from dotenv import load_dotenv
-
 from pathlib import Path
 
-env_path = Path(".") / ".env"
-load_dotenv(dotenv_path=env_path)
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+ENV_PATH = Path(ROOT_DIR) / ".env"
+load_dotenv(dotenv_path=ENV_PATH)
+
 
 @dataclass
 class Settings:
