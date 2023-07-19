@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Boolean, Integer, String
 from sqlalchemy.orm import relationship
 
-from db.base_class import Base
+from db.base import Base
 
 class User(Base):
     id = Column(Integer, primary_key=True, index=True)
