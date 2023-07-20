@@ -1,10 +1,10 @@
 from typing import Optional
-from pydantic import BaseModel, root_validator
-from datetime import date
+from pydantic import BaseModel, root_validator, Field
+from datetime import datetime
 
 class Blog(BaseModel):
     title: str
-    slug: str
+    slug: Optional[str] = None
     content: Optional[str] = None
 
     @root_validator(pre=True)
@@ -17,7 +17,7 @@ class Blog(BaseModel):
 class BlogShow(BaseModel):
     title: str
     content: Optional[str]
-    created_at: date
+    created_at: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
