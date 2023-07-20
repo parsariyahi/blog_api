@@ -12,3 +12,8 @@ def create_blog(blog: BlogSchema, db: Session, author_id: int = 1):
     db.refresh(blog)
 
     return blog
+
+def retrive_blog(blog_id: int, db: Session):
+    blog = db.query(BlogModel).filter(BlogModel.id == blog_id).first()
+
+    return blog
