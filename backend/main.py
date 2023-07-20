@@ -1,5 +1,6 @@
+import uvicorn
 from fastapi import FastAPI
-from uvicorn import run
+from fastapi.routing import APIRoute
 
 from apis.base import api_router
 from core.config import settings
@@ -26,9 +27,19 @@ app = start_application()
 
 
 @app.get("/")
-def home():
-    return {"msg":"Hello FastAPI🚀"}
+def api_lists():
+    all_routes = app.routes
+    api_routes = []
+    for route in all_routes:
+        if isinstance(route, APIRoute):
+            print(route.path)
+            api_routes.append({
+                "path": route.path,
+                "name": route.name,
+                "methods": route.methods,
+            })
+    return {"routes": api_routes}
 
 
 if __name__ == "__main__":
-    run(app, host="127.0.0.1", port=8000)
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True, log_level="info")
