@@ -17,3 +17,8 @@ def retrive_blog(blog_id: int, db: Session):
     blog = db.query(BlogModel).filter(BlogModel.id == blog_id).first()
 
     return blog
+
+def list_blogs(db: Session):
+    blogs = db.query(BlogModel).filter(BlogModel.is_active == True).all()
+
+    return blogs
