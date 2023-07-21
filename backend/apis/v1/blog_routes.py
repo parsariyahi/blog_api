@@ -1,8 +1,9 @@
+from typing import List
 from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.orm import Session
 
 from db.session import get_db
-from db.repository.blog import create_blog, retrive_blog
+from db.repository.blog import create_blog, retrive_blog, list_blogs
 from schemas.blog import BlogShow, Blog as BlogSchema
 
 router = APIRouter()
@@ -21,3 +22,9 @@ def get_blog(blog_id: int, db: Session = Depends(get_db)):
         raise HTTPException(detail=f"Blog with id: {blog_id} does not exists", status_code=status.HTTP_404_NOT_FOUND)
 
     return blog
+
+@router.get("/all", response_model=List[BlogShow], status_code=status.HTTP_200_OK)
+def list_all_blogs(db: Session = Depends(get_db)):
+    blogs = list_blogs(db)
+
+    return blogs
