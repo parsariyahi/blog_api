@@ -32,6 +32,17 @@ def update_blog(blog_id, blog: BlogSchema, author_id: int, db: Session):
 
     return db_blog
 
+def delete_blog(blog_id: int, db: Session) -> bool:
+    blog = db.query(BlogModel).filter(BlogModel.id == blog_id)
+
+    if not blog.first():
+        return False
+
+    blog.delete()
+    db.commit()
+
+    return True
+
 def list_blogs(db: Session):
     blogs = db.query(BlogModel).filter(BlogModel.is_active == True).all()
 
