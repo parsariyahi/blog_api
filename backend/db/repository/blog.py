@@ -18,6 +18,20 @@ def retrive_blog(blog_id: int, db: Session):
 
     return blog
 
+def update_blog(blog_id, blog: BlogSchema, author_id: int, db: Session):
+    db_blog = db.query(BlogModel).filter(BlogModel.id == blog_id).first()
+
+    if not db_blog:
+        return
+
+    db_blog.title = blog.title
+    db_blog.content = blog.content
+
+    db.add(db_blog)
+    db.commit()
+
+    return db_blog
+
 def list_blogs(db: Session):
     blogs = db.query(BlogModel).filter(BlogModel.is_active == True).all()
 
