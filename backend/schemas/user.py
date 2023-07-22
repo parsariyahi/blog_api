@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, ConfigDict
 
 class User(BaseModel):
     email: EmailStr
@@ -10,5 +10,7 @@ class UserShow(BaseModel):
     email: EmailStr
     is_active: bool
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
+
+    # class Config:
+    #     from_attributes = True
