@@ -16,6 +16,7 @@ class Blog(BaseModel):
 
 class BlogShow(BaseModel):
     title: str
+    slug: str
     content: Optional[str]
     created_at: datetime
 
