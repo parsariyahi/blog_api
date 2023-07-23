@@ -14,6 +14,8 @@ class Settings:
     PROJECT_NAME: str = "Pars Bloggers"
     VERSION: str = "1.0.0"
 
+    DEBUG = (os.getenv("DEBUG", "False") == "True")
+
     POSTGRES_USER = os.getenv("POSTGRES_USER")
     POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
     POSTGRES_SERVER = os.getenv("POSTGRES_SERVER", "127.0.0.1")
