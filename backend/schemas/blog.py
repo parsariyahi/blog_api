@@ -1,5 +1,5 @@
 from typing import Optional
-from pydantic import BaseModel, field_validator, FieldValidationInfo, Field, ConfigDict
+from pydantic import BaseModel, field_validator, FieldValidationInfo, ValidationError, ConfigDict, model_validator
 from datetime import datetime
 
 class Blog(BaseModel):
@@ -8,14 +8,18 @@ class Blog(BaseModel):
     content: Optional[str] = None
 
     # @root_validator(pre=True)
-    @field_validator("slug", mode="before")
-    def generate_slug(cls, slug, info: FieldValidationInfo):
-        title = info.get("title", "")
-        slug = None
-        if title:
-            slug = title.replace(" ", "-").lower()
+    @model_validator(mode="before")
+    def generate_slug(cls, values):
+        if not ("slug" in values):
 
-        return slug
+            title = values.get("title", None)
+
+            if not title:
+                raise ValidationError("title is empty, we cant generate slug")
+
+            values["slug"] = title.replace(" ", "-")
+
+        return values
 
 class BlogShow(BaseModel):
     title: str
