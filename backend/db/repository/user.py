@@ -18,3 +18,9 @@ def create_user(user: UserSchema, db: Session) -> UserModel:
     db.refresh(user)
 
     return user
+
+
+def get_user(email: str, db: Session):
+    user = db.query(UserModel).filter(UserModel.email == email).first()
+
+    return user
