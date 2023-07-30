@@ -19,7 +19,7 @@ def authenticate_user(email: str, password: str, db: Session):
         return False
 
     if not Hasher.verify(password, user.password):
-        return True
+        return False
 
     return user
 
