@@ -12,6 +12,6 @@ def create_random_blog(db: Session):
     )
     user = create_random_user(db)
 
-    blog = create_blog(blog, db, author_id=user.id)
+    blog = create_blog(blog, user.id, db)
 
     return blog 
