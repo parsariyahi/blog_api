@@ -22,6 +22,7 @@ class Blog(BaseModel):
         return values
 
 class BlogShow(BaseModel):
+    id: int
     title: str
     slug: str
     content: Optional[str]
