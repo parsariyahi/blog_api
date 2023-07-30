@@ -17,7 +17,6 @@ def include_router(app):
 
 
 def start_application():
-    print(settings.DEBUG)
     app = FastAPI(title=settings.PROJECT_NAME, version=settings.VERSION, debug=settings.DEBUG)
     create_tables()
     include_router(app)
