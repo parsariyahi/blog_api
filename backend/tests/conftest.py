@@ -12,6 +12,7 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) 
 #this is to include backend dir in sys.path so that we can import from db,main.py
 
+from core.config import settings
 from db.base import Base
 from db.session import get_db
 from apis.base import api_router
@@ -78,13 +79,11 @@ def access_token(
     client: TestClient, db_session: SessionTesting
 ) -> Generator[str, Any, None]:
 
-    email = "test@example.com"
-    password = "test1234"
-    user = create_random_user(db_session, email, password)
+    user = create_random_user(db_session)
 
     user_dict = {
-        "username": email,
-        "password": password,
+        "username": settings.TEST_USER_EMAIL,
+        "password": settings.TEST_USER_PASSWORD,
     }
 
     token = force_authentication(client, user_dict)

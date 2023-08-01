@@ -27,6 +27,8 @@ class Settings:
     ALGORITHM = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
-
+    # test user for testings
+    TEST_USER_EMAIL = "test@bloggy.com"
+    TEST_USER_PASSWORD = "test1234"
 
 settings = Settings()
