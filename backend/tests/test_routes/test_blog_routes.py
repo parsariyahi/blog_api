@@ -1,4 +1,5 @@
 from tests.utils.blog import create_random_blog
+from tests.utils.blog import blog_exists
 from tests.utils.user import create_random_user
 from tests.utils.user import force_authentication
 
@@ -31,3 +32,17 @@ def test_fetch_a_blog(client, db_session):
 
     assert response.status_code == 200
     assert response.json()["title"] == blog.title
+
+def test_delete_a_blog(client, db_session, access_token, user): 
+    blog = create_random_blog(db_session, user)
+
+    headers = {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {access_token}",
+    }
+
+    response = client.delete(f"/blogs/{blog.id}/delete", headers=headers) 
+
+    assert response.status_code == 200
+    assert blog_exists(db_session, blog) is False
