@@ -13,7 +13,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 #this is to include backend dir in sys.path so that we can import from db,main.py
 
 from core.config import settings
-from db.base import Base
+from db.base import Base, User as UserModel
 from db.session import get_db
 from apis.base import api_router
 from tests.utils.user import force_authentication, create_random_user
@@ -74,12 +74,19 @@ def client(
     with TestClient(app) as client:
         yield client
 
+
+@pytest.fixture(scope="function")
+def user(
+    db_session: SessionTesting,
+) -> Generator[UserModel, Any, None]:
+    user = create_random_user(db_session)
+
+    return user
+
 @pytest.fixture(scope="function")
 def access_token(
-    client: TestClient, db_session: SessionTesting
+    client: TestClient, db_session: SessionTesting, user: UserModel
 ) -> Generator[str, Any, None]:
-
-    user = create_random_user(db_session)
 
     user_dict = {
         "username": settings.TEST_USER_EMAIL,
