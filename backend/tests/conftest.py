@@ -15,6 +15,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from db.base import Base
 from db.session import get_db
 from apis.base import api_router
+from tests.utils.user import force_authentication, create_random_user
 
 
 def start_application():
@@ -71,3 +72,21 @@ def client(
     app.dependency_overrides[get_db] = _get_test_db
     with TestClient(app) as client:
         yield client
+
+@pytest.fixture(scope="function")
+def access_token(
+    client: TestClient, db_session: SessionTesting
+) -> Generator[str, Any, None]:
+
+    email = "test@example.com"
+    password = "test1234"
+    user = create_random_user(db_session, email, password)
+
+    user_dict = {
+        "username": email,
+        "password": password,
+    }
+
+    token = force_authentication(client, user_dict)
+
+    yield token
