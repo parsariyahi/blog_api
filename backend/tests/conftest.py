@@ -81,7 +81,7 @@ def user(
 ) -> Generator[UserModel, Any, None]:
     user = create_random_user(db_session)
 
-    return user
+    yield user
 
 @pytest.fixture(scope="function")
 def access_token(
