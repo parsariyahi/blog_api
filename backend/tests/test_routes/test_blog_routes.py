@@ -46,3 +46,25 @@ def test_delete_a_blog(client, db_session, access_token, user):
 
     assert response.status_code == 200
     assert blog_exists(db_session, blog) is False
+
+def test_edit_a_blog(client, db_session, access_token, user):
+    blog = create_random_blog(db_session, user)
+
+    headers = {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {access_token}",
+    }
+
+    edited_blog = {
+        "title": "title change",
+        "content": "content change"
+    }
+
+
+    response = client.put(f"/blogs/{blog.id}/edit", json=edited_blog, headers=headers)
+    json_response = response.json()
+
+    assert response.status_code == 200
+    assert json_response["title"] == edited_blog["title"]
+    assert json_response["content"] == edited_blog["content"]
